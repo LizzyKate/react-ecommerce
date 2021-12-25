@@ -1,8 +1,18 @@
 import './css/style.css'
 import productOne from './images/product-14.jpg'
-import productTwo from './images/product-13.jpg'
+import { Link } from 'react-router-dom'
 
 function Checkout(){
+  const getOrder = JSON.parse(localStorage.getItem('order'))
+  const removeOrder = () => {
+    console.log("click")
+    getOrder.filter((e, index) => {
+      debugger
+     return e
+    })
+  getOrder = localStorage.setItem('order', JSON.stringify(getOrder))
+  } 
+  console.log(getOrder)
     return (
         <section class="module">
         <div class="container">
@@ -24,38 +34,30 @@ function Checkout(){
                     <th>Total</th>
                     <th>Remove</th>
                   </tr>
-                  <tr>
-                    <td class="hidden-xs"><a href="#"><img src={productOne} alt="Accessories Pack"/></a></td>
-                    <td>
-                      <h5 class="product-title font-alt">Accessories Pack</h5>
-                    </td>
-                    <td class="hidden-xs">
-                      <h5 class="product-title font-alt">£20.00</h5>
-                    </td>
-                    <td>
-                      <input class="form-control" type="number" name="" value="1" max="50" min="1"/>
-                    </td>
-                    <td>
-                      <h5 class="product-title font-alt">£20.00</h5>
-                    </td>
-                    <td class="pr-remove"><a href="#" title="Remove"><i class="fa fa-times"></i></a></td>
-                  </tr>
-                  <tr>
-                    <td class="hidden-xs"><a href="#"><img src={productTwo} alt="Men’s Casual Pack"/></a></td>
-                    <td>
-                      <h5 class="product-title font-alt">Men’s Casual Pack</h5>
-                    </td>
-                    <td class="hidden-xs">
-                      <h5 class="product-title font-alt">£20.00</h5>
-                    </td>
-                    <td>
-                      <input class="form-control" type="number" name="" value="1" max="50" min="1"/>
-                    </td>
-                    <td>
-                      <h5 class="product-title font-alt">£20.00</h5>
-                    </td>
-                    <td class="pr-remove"><a href="#" title="Remove"><i class="fa fa-times"></i></a></td>
-                  </tr>
+                  {
+                    getOrder.map(e => {
+                      return (
+                        <tr key={Math.random(e)}>
+                        <td class="hidden-xs"><a href="#"><img src={productOne} alt="Accessories Pack"/></a></td>
+                        <td>
+                          <h5 class="product-title font-alt">{e.name}</h5>
+                        </td>
+                        <td class="hidden-xs">
+                          <h5 class="product-title font-alt">${e.price}</h5>
+                        </td>
+                        <td>
+                          <input class="form-control" type="number" name="" value={e.quantity} max="50" min="1"/>
+                        </td>
+                        <td>
+                          <h5 class="product-title font-alt">${e.total}</h5>
+                        </td>
+                        <td class="pr-remove"><button onClick={removeOrder} title="Remove"><i class="fa fa-times"></i></button></td>
+                      </tr>
+                      )
+                    })
+                  }
+              
+              
                 </tbody>
               </table>
             </div>
@@ -73,7 +75,7 @@ function Checkout(){
             </div>
             <div class="col-sm-3 col-sm-offset-3">
               <div class="form-group">
-                <button class="btn btn-block btn-round btn-d pull-right" type="submit">Update Cart</button>
+                <Link to='/Product' class="btn btn-block btn-round btn-d pull-right" type="submit">Update Cart</Link>
               </div>
             </div>
           </div>

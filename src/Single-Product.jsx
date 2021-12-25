@@ -7,14 +7,41 @@ import second from './images/single-product-02.jpg'
 function Single() {
     let params = useParams()
     const [product, setProduct] = useState({})
+    const [count, setCount] = useState(1)
+    function increase() {
+        setCount(count + 1)
+
+    }
+    function decrease() {
+        if (count !== 0) {
+            setCount(count - 1)
+        }
+        else {
+            setCount(0)
+        }
+    }
+
     const getProduct = async () => {
         const response = await axios.get(`http://localhost:1337/api/cloths/${params.id}`)
         setProduct(response.data.data)
-        console.log(response.data.data)
     }
     useEffect(() => {
         getProduct()
     }, [])
+
+    const order = {
+            name: product.attributes?.Brand,
+            price: product.attributes?.Price,
+            quantity: count,
+            total: product.attributes?.Price * count
+        }
+    
+    const setOrder = () => {
+        let items =  localStorage.getItem('order')
+        const itemArray = items ? JSON.parse(items) : []
+        itemArray.push(order)
+        localStorage.setItem('order', JSON.stringify(itemArray))
+    }
     return (
         <section>
             <div class="page-heading" id="top">
@@ -59,15 +86,15 @@ function Single() {
                                     </div>
                                     <div class="right-content">
                                         <div class="quantity buttons_added">
-                                            <input type="button" value="-" class="minus" />
-                                            <input type="number" step="1" min="1" max="" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" pattern="" inputmode="" />
-                                            <input type="button" value="+" class="plus" />
+                                            <input type="button" value="-" class="minus" onClick={decrease} />
+                                            <input type="number" step="1" min="1" max="" name="quantity" value={count} title="Qty" class="input-text qty text" size="4" pattern="" inputmode="" />
+                                            <input type="button" value="+" class="plus" onClick={increase} />
                                         </div>
                                     </div>
                                 </div>
                                 <div class="total">
-                                    <h4>Total: $210.00</h4>
-                                    <div class="main-border-button"><a href="#">Add To Cart</a></div>
+                                    <h4>Total: ${product.attributes?.Price * count}</h4>
+                                    <div class="main-border-button"><button onClick={setOrder}>Add To Cart</button></div>
                                 </div>
                             </div>
                         </div>

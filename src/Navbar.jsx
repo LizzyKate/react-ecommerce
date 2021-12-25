@@ -34,7 +34,7 @@ function Navbar (){
                                     <li><a rel="nofollow" href="https://templatemo.com/page/4" target="_blank">Template Page 4</a></li>
                                 </ul>
                             </li> */}
-                            <li className="scroll-to-section"><Link to='/Explore'>Explore</Link></li>
+                            <li className="scroll-to-section"><Link to='/Checkout'>Checkout</Link></li>
                         </ul>        
                         <a className='menu-trigger'>
                             <span>Menu</span>
